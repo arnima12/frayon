@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 const MyOrders = () => {
     const { user, totalPrice, setTotalPrice } = useContext(AuthContext)
 
-    const url = `http://localhost:5000/order?email=${user?.email}`;
+    const url = `https://frayon-server-mlizzrd6c-arnima12s-projects.vercel.app/order?email=${user?.email}`;
     const { data: order = [] } = useQuery({
         queryKey: ['order', user?.email],
         queryFn: async () => {
@@ -22,9 +22,10 @@ const MyOrders = () => {
     })
     console.log(order);
     useEffect(() => {
-        if (Array.isArray(order) && order.length > 0){
-        const calculatedTotalPrice = order.reduce((acc, item) => acc + item.price, 0);
-        setTotalPrice(calculatedTotalPrice);}
+        if (Array.isArray(order) && order.length > 0) {
+            const calculatedTotalPrice = order.reduce((acc, item) => acc + item.price, 0);
+            setTotalPrice(calculatedTotalPrice);
+        }
     }, [order, setTotalPrice]);
 
     return (

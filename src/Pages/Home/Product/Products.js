@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 const Products = () => {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:5000/products`)
+        fetch(`https://frayon-server-mlizzrd6c-arnima12s-projects.vercel.app/products`)
             .then(res => res.json())
             .then(data => setProducts(data))
     }, []);
-  
+
     return (
         <div className="mt-24">
             <h1 className="text-3xl text-center mb-12">Clothes & Accessories</h1>
@@ -23,7 +23,7 @@ const Products = () => {
 
             </div>
             <div className="flex justify-center mt-8">
-            <button className="btn text-black hover:text-white"><Link to="/products">Show More</Link></button>
+                <button className="btn text-black hover:text-white"><Link to="/products">Show More</Link></button>
             </div>
         </div>
     );

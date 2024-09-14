@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 const Cart = () => {
     const { user, buyNow } = useContext(AuthContext);
-    const url = `http://localhost:5000/cart?email=${user?.email}`;
+    const url = `https://frayon-server-mlizzrd6c-arnima12s-projects.vercel.app/cart?email=${user?.email}`;
     const { data: cart = [] } = useQuery({
         queryKey: ['cart', user?.email],
         queryFn: async () => {

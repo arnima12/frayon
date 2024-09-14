@@ -25,7 +25,7 @@ const Registration = () => {
                 updateUser(userInfo)
                     .then(() => {
                         saveUser(data.name, data.email)
-                        
+
                     })
                     .catch((error) => {
                         console.log(error)
@@ -34,12 +34,12 @@ const Registration = () => {
                         setSignUpError(error.message)
 
                     });
-                    
-                
+
+
             })
         const saveUser = (name, email) => {
             const user = { name, email };
-            fetch('http://localhost:5000/users', {
+            fetch('https://frayon-server-mlizzrd6c-arnima12s-projects.vercel.app/users', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -53,7 +53,7 @@ const Registration = () => {
                 })
         }
     }
-return (
+    return (
         <div className="h-[800px] flex flex-col justify-center items-center">
             <div className="w-96">
                 <h1 className="text-2xl text-center">
@@ -79,7 +79,7 @@ return (
                         {errors.password && <p className="text-red-500">{errors.password.message}</p>}
                     </div>
                     <input className="btn btn-accent w-full mt-8" type="submit" value="Create Account" />
-                    <Toaster/>
+                    <Toaster />
                     {signUpError && <p className="text-red-500">{signUpError}</p>}
 
                 </form>

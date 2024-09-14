@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const [order, setOrder] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
-    
+
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password)
@@ -23,81 +23,81 @@ const AuthProvider = ({ children }) => {
     const updateUser = (userInfo) => {
         return updateProfile(auth.currentUser, userInfo)
     }
-    const handleCart = (item) =>{
-        const newCart = [...cart,item];
+    const handleCart = (item) => {
+        const newCart = [...cart, item];
         setCart(newCart);
         const requestBody = {
-          name: item.name,
-          email: user.email,
-          price:item.price,
-          image:item.image
+            name: item.name,
+            email: user.email,
+            price: item.price,
+            image: item.image
         };
-        fetch('http://localhost:5000/cart', {
-              method: 'POST',
-              headers: {
-                  'content-type': 'application/json'
-              },
-              body: JSON.stringify(requestBody)
-          })
-              .then(res => res.json())
-              .then(data => {
-                  console.log(data)
-                  if (data.acknowledged) {
-                    
+        fetch('https://frayon-server.vercel.app/cart', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.acknowledged) {
+
                     toast.success('Added to cart');
                 }
                 else {
                     toast.error(data.message);
                 }
-              }
-              )
-  
+            }
+            )
+
     }
-    const buyNow = item =>{
-        const newOrder = [...order,item];
+    const buyNow = item => {
+        const newOrder = [...order, item];
         setOrder(newOrder);
         const requestBody = {
             name: item.name,
             email: user.email,
-            price:item.price,
+            price: item.price,
             image: item.image
-          };
-          console.log(requestBody)
-          fetch('http://localhost:5000/order', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                    if (data.acknowledged) {
-                      
-                      toast.success('Order Confirmed');
-                      
-                  }
-                  else {
-                      toast.error(data.message);
-                  }
-                }
-    
-                )
-                fetch(`http://localhost:5000/cart/${item._id}`, {
-                method: 'DELETE'
-            })
+        };
+        console.log(requestBody)
+        fetch('https://frayon-server-mlizzrd6c-arnima12s-projects.vercel.app/order', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-            if(data.deletedCount>0){
-               
-                const remainingCart = cart.filter(product => product._id !== item._id)
-                setCart(remainingCart);
+                if (data.acknowledged) {
+
+                    toast.success('Order Confirmed');
+
+                }
+                else {
+                    toast.error(data.message);
+                }
             }
+
+            )
+        fetch(`https://frayon-server-mlizzrd6c-arnima12s-projects.vercel.app/cart/${item._id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.deletedCount > 0) {
+
+                    const remainingCart = cart.filter(product => product._id !== item._id)
+                    setCart(remainingCart);
+                }
             });
-            console.log(totalPrice)
-    
+        console.log(totalPrice)
+
     }
     const logout = () => {
         return signOut(auth)
